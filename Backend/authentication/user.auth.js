@@ -95,11 +95,12 @@ user.post("/create", async (req, res) => {
 
 user.get("/getinfo", async (req, res) => {
   const a = req.cookies.token;
-  console.log(req.cookies);
   jwt.verify(a, "shhh", async function (err, decoded) {
+    
     if(err)return res.status(401).send({msg:"unauth"})
     const { id } = decoded;
     const user = await User_owner.findById(id);
+    // console.log(user)
     return res.json(user);
   });
 });
