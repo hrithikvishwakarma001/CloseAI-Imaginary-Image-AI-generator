@@ -1,31 +1,29 @@
 import { Otp } from "../mongodb/models/otp.model.js";
 import { User_owner } from "../mongodb/models/user.js";
-import express from 'express'
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
-import nodemailer from 'nodemailer'
-import otpGenerator from 'otp-generator'
-import {passport} from "./google.auth.js";
+import express from "express";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer";
+import otpGenerator from "otp-generator";
+import { passport } from "./google.auth.js";
 
-const user=express.Router()
-
-
+const user = express.Router();
 
 const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-        user: 'closeaicat@gmail.com',
-        pass: 'pvcejsjhwbcpjcle'
-    }
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: "closeaicat@gmail.com",
+    pass: "pvcejsjhwbcpjcle",
+  },
 });
-
 
 user.post("/genotp", async (req, res) => {
   const { email, name, password } = req.body;
-  const userpresence=await User_owner.findOne({email})
-  if(userpresence)return res.send({"msg":"User with this email address already present"})
+  const userpresence = await User_owner.findOne({ email });
+  if (userpresence)
+    return res.send({ msg: "User with this email address already present" });
   const jwttoken = jwt.sign(
     {
       email,
@@ -52,21 +50,20 @@ user.post("/genotp", async (req, res) => {
     ]);
     res.send(newotpuser[0]._id);
   });
- 
 });
 
 user.post("/create", async (req, res) => {
   const { _id, userotp } = req.body;
   const otp = await Otp.findOne({ _id });
-  if(!otp){
-    res.status(401).send({"msg":"email not matched"})
+  if (!otp) {
+    res.status(401).send({ msg: "email not matched" });
   }
-//   console.log(otp);
-//   return
+  //   console.log(otp);
+  //   return
   const { onejwt, expireat } = otp;
-  console.log(expireat,Date.now())
+  console.log(expireat, Date.now());
   if (expireat <= Date.now()) {
-    return res.send({"msg":"token expired"});
+    return res.send({ msg: "token expired" });
   }
   jwt.verify(onejwt, "shhh", async function (err, decoded) {
     const { email, name, password } = decoded;
@@ -78,7 +75,7 @@ user.post("/create", async (req, res) => {
       if (result) {
         bcrypt.hash(password, 6, async function (err, hash) {
           const updateuser = await User_owner.insertMany([
-            { name, email, password:hash },
+            { name, email, password: hash },
           ]);
           let newuserarray = updateuser[0];
           const jwttoken = jwt.sign(
@@ -89,15 +86,20 @@ user.post("/create", async (req, res) => {
           );
           res.send({ msg: jwttoken });
         });
-      }else{
-        res.status(401).send({"msg":"unauth"})
+      } else {
+        res.status(401).send({ msg: "unauth" });
       }
     });
   });
 });
 
+user.get("/getinfo", async (req, res) => {
+  const a = req.cookies["token"];
+  jwt.verify(a, "shhh", async function (err, decoded) {
+    const { id } = decoded;
+    const user = await User_owner.findById(id);
+    return res.send(user);
+  });
+});
 
-
-
-
-export {user}
+export { user };

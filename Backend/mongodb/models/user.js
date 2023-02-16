@@ -11,8 +11,11 @@ const userschema=mongoose.Schema({
     password:{
         type:String,
         select:false
+    },
+    avatar:{type:String
     }
 })
+
 
 
 const User_owner=mongoose.model('user',userschema);
