@@ -23,15 +23,9 @@ import {
 } from "@chakra-ui/react";
 import {
 	FiHome,
-	FiTrendingUp,
-	FiCompass,
-	FiStar,
-	FiSettings,
 	FiMenu,
-	FiBell,
 	FiChevronDown,
 	FiSun,
-	FiSearch,
 	FiMoon,
 	FiImage,
 } from "react-icons/fi";
@@ -39,7 +33,6 @@ import { GiBearFace } from "react-icons/gi";
 import { useColorMode } from "@chakra-ui/color-mode";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContextProvider";
-import { ArrowBackIcon, ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
 export default function SidebarWithHeader({ children }) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	return (
@@ -157,6 +150,17 @@ const MobileNav = ({ onOpen, ...rest }) => {
 	const { isAuth } = useContext(AuthContext);
 	const nevigate = useNavigate();
 	const { colorMode, toggleColorMode } = useColorMode();
+
+
+	React.useEffect(() => {
+		setTimeout(()=>{
+			fetch("http://localhost:8080/api/test/getinfo")
+			.then((response) => response.json())
+			.then((data) => console.log(data))
+			.catch((error) => console.log(error));
+		},8000)
+	}, []);
+
 	return (
 		<Flex
 			ml={{ base: 0, md: 60 }}
@@ -229,8 +233,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
 								borderColor={useColorModeValue(
 									"gray.200",
 									"gray.700"
-								)}
-								>
+								)}>
 								<MenuItem>Profile</MenuItem>
 								<MenuItem>Settings</MenuItem>
 								<MenuDivider />
