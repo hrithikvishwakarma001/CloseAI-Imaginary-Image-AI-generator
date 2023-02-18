@@ -105,4 +105,11 @@ user.get("/getinfo", async (req, res) => {
   });
 });
 
+
+user.delete("/logout",(req,res)=>{
+  req.cookies.token=null
+
+  res.send({"msg":"Token deleted"})
+})
+
 export { user };
