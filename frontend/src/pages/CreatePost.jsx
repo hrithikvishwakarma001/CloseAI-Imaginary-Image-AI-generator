@@ -1,8 +1,8 @@
-import React from "react";
-import { Form, useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
+import {useNavigate } from "react-router-dom";
 import { getRandomPrompt } from "../utils";
 import { FormField } from "../components";
-import { preview, download } from "../assets";
+import { preview,  } from "../assets";
 import {
 	Box,
 	Button,
@@ -10,26 +10,27 @@ import {
 	Flex,
 	FormControl,
 	Heading,
-	HStack,
 	Image,
 	Spinner,
 	Text,
 	useColorModeValue,
 	VStack,
 } from "@chakra-ui/react";
+import { AuthContext } from "../context/AuthContextProvider";
 
 const CreatePost = () => {
+	const {name} = useContext(AuthContext);
 	const navigate = useNavigate();
 	const [loading, setLoading] = React.useState(false);
 	const [generatingImg, setGeneratingImg] = React.useState(false);
 	const [form, setForm] = React.useState({
-		name: "",
+		name,
 		prompt: "",
 		photo: "",
 	});
 
 	const generateImage = async () => {
-		if (form.prompt) {
+		if (form.name && form.prompt) {
 			try {
 				console.log("generating....");
 				setGeneratingImg(true);
@@ -112,14 +113,14 @@ const CreatePost = () => {
 				</Text>
 				<FormControl mt='16' maxW={"3xl"} onSubmit={handleSubmit}>
 					<VStack spacing={5} align='stretch'>
-						<FormField
+						{/* <FormField
 							label='Your Name'
 							type='text'
 							name='name'
 							placeholder='Enter your name'
 							value={form.name}
 							handleChange={handleChange}
-						/>
+						/> */}
 						<FormField
 							label='Prompt'
 							type='text'

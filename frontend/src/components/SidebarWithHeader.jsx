@@ -146,7 +146,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
 };
 
 const MobileNav = ({ onOpen, ...rest }) => {
-	const { isAuth, toggleAuth } = useContext(AuthContext);
+	const { isAuth, toggleAuth,setName } = useContext(AuthContext);
 	const nevigate = useNavigate();
 	const { colorMode, toggleColorMode } = useColorMode();
   const [user,setUser] = React.useState(null);
@@ -159,15 +159,16 @@ const MobileNav = ({ onOpen, ...rest }) => {
 						credentials: "include",
 					}
 				);
-				if(res.status === 200){
-          toggleAuth(true);
-          const data = await res.json();
-          setUser(data);
-        }
+				if (res.status === 200) {
+					toggleAuth(true);
+					const data = await res.json();
+					setUser(data);
+					setName(data.name);
+				}
 			} catch (error) {
 				console.log("err", error);
 			}
-		}, 100)
+		}, 100);
 	}, []);
 
 	return (

@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, FormField } from "../components";
+import { Card, } from "../components";
 import {
 	Center,
 	Container,
@@ -12,7 +12,6 @@ import {
 	Stack,
 	Text,
 	useColorModeValue,
-	VStack,
 } from "@chakra-ui/react";
 const RenderCards = ({ data, title }) => {
 	if (data?.length > 0) {
@@ -151,7 +150,7 @@ const Home = () => {
 								Showing result for &nbsp;
 								<Text
 									as='span'
-									color={useColorModeValue("black", "purple.400")}
+									// color={useColorModeValue("black", "purple.400")}
 									fontFamily='cursive'
 									fontWeight={600}>
 									{search}
