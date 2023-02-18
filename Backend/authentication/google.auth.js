@@ -26,6 +26,10 @@ passport.use(
 
       bcrypt.hash(passwords, 10, async function (err, hash) {
         console.log(hash, err);
+          const checkuser=await User_owner.findOne({email})
+          if(!checkuser){
+            return done(null, profile);
+          }
         const user = await User_owner.insertMany([
           {
             name: given_name,
