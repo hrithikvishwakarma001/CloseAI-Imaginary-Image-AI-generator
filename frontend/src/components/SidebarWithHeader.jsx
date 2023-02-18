@@ -242,10 +242,16 @@ const MobileNav = ({ onOpen, ...rest }) => {
 								_dark={{
 									bg: "gray.900",
 								}}>
-								<MenuItem>Profile</MenuItem>
-								<MenuItem>Settings</MenuItem>
+								<MenuItem
+								 _dark={{bg:'gray.900',color:"gray.200"}}
+								>Profile</MenuItem>
+								<MenuItem
+								 _dark={{bg:'gray.900',color:"gray.200"}}
+								>Settings</MenuItem>
 								<MenuDivider />
-								<MenuItem>Sign out</MenuItem>
+								<MenuItem
+								 _dark={{bg:'gray.900',color:"gray.200"}}
+								>Sign out</MenuItem>
 							</MenuList>
 						</Menu>
 					</Flex>

@@ -35,7 +35,10 @@ const FormField = ({
 							rounded='5px'
 							h='22px'
 							ml='5px'
-							bg={useColorModeValue("gray.200", "gray.800")}>
+							_dark={{
+								bg: "gray.800",
+							}}
+							>
 							Surprise me
 						</Button>
 					)}
