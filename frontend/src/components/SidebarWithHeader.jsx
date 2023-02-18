@@ -170,7 +170,23 @@ const MobileNav = ({ onOpen, ...rest }) => {
 			}
 		}, 100);
 	}, []);
+ 
 
+	 const handleLogout = async () => {
+			fetch("http://localhost:8080/api/test/logout", {
+				method: "delete",
+			}).then((res) => {
+				console.log("res", res);
+				if (res.status === 200) {
+					toggleAuth(false);
+					nevigate("/");
+					setName("");
+				}
+			});
+		}
+
+			
+	 
 	return (
 		<Flex
 			ml={{ base: 0, md: 60 }}
@@ -252,6 +268,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
 								<MenuDivider />
 								<MenuItem
 								 _dark={{bg:'gray.900',color:"gray.200"}}
+								 onClick={handleLogout}
 								>Sign out</MenuItem>
 							</MenuList>
 						</Menu>
