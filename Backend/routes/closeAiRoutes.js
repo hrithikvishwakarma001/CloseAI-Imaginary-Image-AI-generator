@@ -3,7 +3,6 @@ import * as dotenv from "dotenv";
 import { Configuration, OpenAIApi } from "openai";
 
 dotenv.config();
-console.log('hiiii');
 
 const router = express.Router();
 const configuration = new Configuration({

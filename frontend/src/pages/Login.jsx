@@ -1,15 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import {
 	Box,
 	Button,
 	Heading,
-	Flex,
 	FormControl,
-	FormLabel,
-	Input,
-	InputGroup,
 	FormHelperText,
-	InputRightElement,
 	useColorModeValue,
 	Container,
 	Center,
@@ -23,9 +18,8 @@ import {
 import { Link } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
-import { NavLink, useHref, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { GiBearFace } from "react-icons/gi";
-import { ArrowLeftIcon } from "@chakra-ui/icons";
 const Login = () => {
 	const navigate = useNavigate();
 	const toast = useToast();

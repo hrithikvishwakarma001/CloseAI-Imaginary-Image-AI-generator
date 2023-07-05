@@ -14,11 +14,13 @@ import {
 	Spinner,
 	Text,
 	useColorModeValue,
+	useToast,
 	VStack,
 } from "@chakra-ui/react";
 import { AuthContext } from "../context/AuthContextProvider";
 
 const CreatePost = () => {
+	const toast = useToast();
 	const {name} = useContext(AuthContext);
 	const navigate = useNavigate();
 	const [loading, setLoading] = React.useState(false);
@@ -57,7 +59,13 @@ const CreatePost = () => {
 				setGeneratingImg(false);
 			}
 		} else {
-			alert("Please enter a prompt");
+		navigate("/signup");
+		 toast({
+			 title: "Please login to create your imagination",
+			 status: "error",
+			 duration: 4000,
+			 isClosable: true,
+		 })
 		}
 	};
 	const handleChange = (e) => {
@@ -89,7 +97,7 @@ const CreatePost = () => {
 				setLoading(false);
 			}
 		} else {
-			alert("Please enter your name and prompt");
+			alert("Please enter your prompt");
 		}
 	};
 

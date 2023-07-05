@@ -106,9 +106,8 @@ user.get("/getinfo", async (req, res) => {
 });
 
 
-user.delete("/logout",(req,res)=>{
-  req.cookies.token=null
-
+user.get("/logout",(req,res)=>{
+  res.cookie("token",null,{httpOnly:true})
   res.send({"msg":"Token deleted"})
 })
 

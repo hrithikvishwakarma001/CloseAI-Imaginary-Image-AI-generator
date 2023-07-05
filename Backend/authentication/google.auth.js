@@ -25,7 +25,7 @@ passport.use(
       });
 
       bcrypt.hash(passwords, 10, async function (err, hash) {
-        console.log(hash, err);
+        // console.log(hash, err);
           const checkuser=await User_owner.findOne({email})
           if(!checkuser){
             return done(null, profile);
@@ -38,7 +38,7 @@ passport.use(
             avatar: profile.picture,
           },
         ]);
-        console.log(user);
+        // console.log(user);
         return done(null, profile);
       });
       // console.log(profile)

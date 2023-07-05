@@ -19,6 +19,7 @@ import {
 	MenuItem,
 	MenuList,
 	Button,
+	Image,
 } from "@chakra-ui/react";
 import {
 	FiHome,
@@ -150,43 +151,51 @@ const MobileNav = ({ onOpen, ...rest }) => {
 	const nevigate = useNavigate();
 	const { colorMode, toggleColorMode } = useColorMode();
   const [user,setUser] = React.useState(null);
-	React.useEffect(() => {
-		setTimeout(async () => {
-			try {
-				let res = await fetch(
-					"http://localhost:8080/api/test/getinfo",
-					{
-						credentials: "include",
-					}
-				);
-				if (res.status === 200) {
-					toggleAuth(true);
-					const data = await res.json();
-					setUser(data);
-					setName(data.name);
+	async function getInfo() {
+		try {
+			let res = await fetch(
+				"http://localhost:8080/api/test/getinfo",
+				{
+					credentials: "include",
 				}
-			} catch (error) {
-				console.log("err", error);
+			);
+			if (res.status === 200) {
+				console.log('m getting it correctly')
+				toggleAuth(true);
+				const data = await res.json();
+				console.log('👻 -> file: SidebarWithHeader.jsx:165 -> getInfo -> data:', data)
+				setUser(data);
+				setName(data.name);
+			}else{
+				toggleAuth(false);
+				nevigate("/");
 			}
-		}, 100);
+		} catch (error) {
+			console.log("err", error);
+		}
+	}
+	React.useEffect(() => {
+		getInfo();
 	}, []);
  
 
-	 const handleLogout = async () => {
-			fetch("http://localhost:8080/api/test/logout", {
-				method: "delete",
-			}).then((res) => {
-				console.log("res", res);
-				if (res.status === 200) {
+	async function handleLogout(){
+		fetch("http://localhost:8080/api/test/logout",{
+		credentials: "include"
+		}).then((res) => res.json())
+			.then((data) => {
+				console.log(data);
+				if (data.success) {
 					toggleAuth(false);
 					nevigate("/");
 					setName("");
+					getInfo();
+					
 				}
 			});
 		}
+		console.log(user?.avatar)
 
-			
-	 
 	return (
 		<Flex
 			ml={{ base: 0, md: 60 }}
@@ -233,10 +242,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
 								transition='all 0.3s'
 								_focus={{ boxShadow: "none" }}>
 								<HStack>
-									<Avatar
-										size={"sm"}
-										src={user?.avatar}
-									/>
+									<Avatar size={"sm"} src={user?.avatar} />
 									<VStack
 										display={{ base: "none", md: "flex" }}
 										alignItems='flex-start'
@@ -244,9 +250,6 @@ const MobileNav = ({ onOpen, ...rest }) => {
 										ml='2'>
 										<Text fontSize='sm'>
 											{user?.name}
-										</Text>
-										<Text fontSize='xs' color='gray.600'>
-											Admin
 										</Text>
 									</VStack>
 									<Box display={{ base: "none", md: "flex" }}>

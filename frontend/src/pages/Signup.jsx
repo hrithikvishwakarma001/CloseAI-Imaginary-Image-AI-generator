@@ -211,12 +211,13 @@ const Signup = () => {
 							<Link
 							  as = 'a'
 								href='http://localhost:8080/auth/google'
-								target='_blank'
+								// target='_blank'
 								rel='noopener noreferrer'
 								underline='none'>
 								<Button
 									mt='2rem'
-									onClick={handleAuthentication}>
+									// onClick={handleAuthentication}
+									>
 									<FcGoogle /> &nbsp; Google
 								</Button>
 							</Link>
