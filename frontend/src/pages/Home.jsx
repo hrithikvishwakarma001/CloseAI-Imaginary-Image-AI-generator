@@ -42,7 +42,7 @@ const Home = () => {
 			setLoading(true);
 			try {
 				const response = await fetch(
-					"http://localhost:8080/api/v1/posts"
+					`${process.env.REACT_APP_BACKEND_API}/api/v1/posts`
 				);
 				const data = await response.json();
 				const reversedData = data.data.reverse();

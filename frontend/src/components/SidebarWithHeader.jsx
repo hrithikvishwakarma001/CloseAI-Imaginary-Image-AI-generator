@@ -172,7 +172,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
 		}
 	}
 	React.useEffect(() => {
-		getInfo();
+		// getInfo();
 	}, []);
 
 	async function handleLogout() {
