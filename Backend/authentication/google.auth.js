@@ -1,5 +1,4 @@
 import Google from "passport-google-oauth2";
-const GoogleStrategy = Google.Strategy;
 import bcrypt from "bcrypt";
 import passport from "passport";
 import generator from "generate-password";
@@ -7,6 +6,7 @@ import jwt from "jsonwebtoken";
 import { User_owner } from "../mongodb/models/user.js";
 // var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 
+const GoogleStrategy = Google.Strategy;
 passport.use(
   new GoogleStrategy(
     {
@@ -31,17 +31,16 @@ passport.use(
             return done(null, profile);
           }
         const user = await User_owner.insertMany([
-          {
-            name: given_name,
-            email,
-            password: hash,
-            avatar: profile.picture,
-          },
-        ]);
-        // console.log(user);
+			{
+				name: profile.displayName,
+				email,
+				password: hash,
+				avatar: profile.picture,
+			},
+		]);
         return done(null, profile);
       });
-      // console.log(profile)
+      console.log({profile})
     }
   )
 );

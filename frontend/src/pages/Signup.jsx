@@ -14,13 +14,13 @@ import {
 	Container,
 	Center,
 	Text,
-	Link
+	Link,
 } from "@chakra-ui/react";
 
 import { useToast } from "@chakra-ui/react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { GiBearFace } from "react-icons/gi";
-import {FcGoogle} from "react-icons/fc";
+import { FcGoogle } from "react-icons/fc";
 const Signup = () => {
 	const toast = useToast();
 	const [show, setShow] = React.useState(false);
@@ -38,6 +38,38 @@ const Signup = () => {
 	};
 
 	const navigate = useNavigate();
+	const fetchData = async (user) => {
+		const response = await fetch("http://localhost:8080/api/test/genotp", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(user),
+		});
+
+		if (response.status === 409) {
+			toast({
+				title: "Error.",
+				description: "Email already exists.",
+				status: "error",
+				duration: 4000,
+				isClosable: true,
+			});
+			return;
+		}
+		toast({
+			title: "OTP sent to your email.",
+			description: "We've created your account for you.",
+			status: "success",
+			duration: 4000,
+			isClosable: true,
+		});
+		setState(inintialState);
+		const data = await response.json();
+		localStorage.setItem("token", data);
+		navigate("/login");
+	};
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (
@@ -54,40 +86,14 @@ const Signup = () => {
 				isClosable: true,
 			});
 		} else {
-			toast({
-				title: "Account created.",
-				description: "We've created your account for you.",
-				status: "success",
-				duration: 6000,
-				isClosable: true,
-			});
 			const user = {
 				name: state.firstName + " " + state.lastName,
 				email: state.email,
 				password: state.password,
 			};
-			console.log(user);
-			const fetchData = async () => {
-				const response = await fetch(
-					"http://localhost:8080/api/test/genotp",
-					{
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify(user),
-					}
-				);
-				const data = await response.json();
-				console.log(data);
-				localStorage.setItem("token", data);
-				setTimeout(() => {
-					navigate("/login");
-				}, 1000);
-			};
-			fetchData();
+			// console.log(user);
+			fetchData(user);
 		}
-		setState(inintialState);
 	};
 	const handleAuthentication = () => {
 		fetch("http://localhost:8080/auth/google")
@@ -129,7 +135,7 @@ const Signup = () => {
 							display='flex'
 							fontWeight='bolder'>
 							<GiBearFace size='2rem' />
-							{/* CloseAI */}
+							CloseAi
 						</Text>
 					</Heading>
 					<Flex>
@@ -145,6 +151,7 @@ const Signup = () => {
 								placeholder='First name'
 								_placeholder={{ color: "gray.500" }}
 								onChange={handleChange}
+								required	
 							/>
 						</FormControl>
 
@@ -160,6 +167,7 @@ const Signup = () => {
 								_placeholder={{ color: "gray.500" }}
 								placeholder='Last name'
 								onChange={handleChange}
+								required
 							/>
 						</FormControl>
 					</Flex>
@@ -174,6 +182,7 @@ const Signup = () => {
 							_placeholder={{ color: "gray.500" }}
 							placeholder='Enter email'
 							onChange={handleChange}
+							required
 						/>
 						<FormHelperText>
 							We'll never share your email.
@@ -195,6 +204,7 @@ const Signup = () => {
 								_placeholder={{ color: "gray.500" }}
 								name='password'
 								onChange={handleChange}
+								required
 							/>
 							<InputRightElement width='4.5rem'>
 								<Button
@@ -207,29 +217,37 @@ const Signup = () => {
 						</InputGroup>
 						<Flex
 							justifyContent='space-between'
-							alignItems='center'>
+							alignItems='center'
+							flexDirection='column'
+							w='100%'>
+							{/* <NavLink to='/' w="100%"> */}
+							<Button
+								w='full'
+								variant='solid'
+								mt='2rem'
+								onClick={handleSubmit}>
+								Submit
+							</Button>
+							{/* </NavLink> */}
 							<Link
-							  as = 'a'
+								mt='1rem'
+								as='a'
 								href='http://localhost:8080/auth/google'
 								// target='_blank'
 								rel='noopener noreferrer'
-								underline='none'>
+								underline='none'
+								w='100%'>
 								<Button
-									mt='2rem'
-									// onClick={handleAuthentication}
-									>
-									<FcGoogle /> &nbsp; Google
+									w={"full"}
+									maxW={"md"}
+									variant={"outline"}
+									leftIcon={<FcGoogle />}
+									onClick={handleAuthentication}>
+									<Center>
+										<Text>Sign in with Google</Text>
+									</Center>
 								</Button>
 							</Link>
-							<NavLink to='/'>
-								<Button
-									w='10rem'
-									variant='solid'
-									mt='2rem'
-									onClick={handleSubmit}>
-									Submit
-								</Button>
-							</NavLink>
 						</Flex>
 					</FormControl>
 				</Box>

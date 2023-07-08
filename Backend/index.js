@@ -55,11 +55,12 @@ app.get(
   }),
   async (req, res) => {
     const { email } = req.user;
-
+    console.log("👻 -> file: index.js:60 -> email", email)
     const user = await User_owner.findOne({ email });
+    console.log('👻 -> file: index.js:60 -> user:', user)
     let jwttoken = jwt.sign(
       {
-        id: user.id,
+        id: user?.id,
       },
       "shhh"
     );

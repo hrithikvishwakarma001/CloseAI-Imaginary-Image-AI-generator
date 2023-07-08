@@ -1,4 +1,10 @@
-import { Button, Flex, FormLabel, Input, useColorModeValue } from "@chakra-ui/react";
+import {
+	Button,
+	Flex,
+	FormLabel,
+	Input,
+	useColorModeValue,
+} from "@chakra-ui/react";
 import React from "react";
 
 const FormField = ({
@@ -35,9 +41,9 @@ const FormField = ({
 							rounded='5px'
 							h='22px'
 							ml='5px'
-							_dark={{
-								bg: "gray.800",
-							}}
+							bg='gray.300'
+							color={"#000"}
+							_dark={{ bg: "yellow.400", color: "#000" }}
 							>
 							Surprise me
 						</Button>

@@ -25,15 +25,14 @@ const Login = () => {
 	const toast = useToast();
 
 	const handleComplete = (value) => {
-
 		let token = localStorage.getItem("token");
 		console.log(token);
 		let pin = {
-			_id:token,
+			_id: token,
 			userotp: value,
-		}
-		pin=JSON.stringify(pin)
-		console.log(pin)
+		};
+		pin = JSON.stringify(pin);
+		console.log(pin);
 		const fetchData = async () => {
 			const response = await fetch(
 				"http://localhost:8080/api/test/create",
@@ -45,7 +44,7 @@ const Login = () => {
 					body: pin,
 				}
 			);
-			if(response.ok){
+			if (response.ok) {
 				const data = await response.json();
 				console.log(data.msg);
 				toast({
@@ -55,10 +54,8 @@ const Login = () => {
 					duration: 3000,
 					isClosable: true,
 				});
-				setTimeout(() => {
-					navigate("/");
-				}, 1000);
-			}else{
+				navigate("/");
+			} else {
 				toast({
 					title: "OTP Verification Failed",
 					description: "Please try again",
@@ -67,7 +64,6 @@ const Login = () => {
 					isClosable: true,
 				});
 			}
-
 		};
 		fetchData();
 	};
@@ -121,8 +117,7 @@ const Login = () => {
 						<HStack justifyContent={"center"}>
 							<PinInput
 								onComplete={handleComplete}
-								placeholder='🐱'
-								>
+								placeholder='🐱'>
 								<PinInputField />
 								<PinInputField />
 								<PinInputField />
@@ -135,10 +130,7 @@ const Login = () => {
 							<Link
 								href='https://mail.google.com/mail/u/0/#inbox'
 								isExternal>
-								<Button
-									w='10rem'
-									variant='solid'
-									mt='2rem'>
+								<Button w='10rem' variant='solid' mt='2rem'>
 									Open Mail
 									<ExternalLinkIcon mx='2px' ml='2' />
 								</Button>

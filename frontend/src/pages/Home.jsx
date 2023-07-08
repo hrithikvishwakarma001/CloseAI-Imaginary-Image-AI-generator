@@ -15,8 +15,8 @@ import {
 } from "@chakra-ui/react";
 const RenderCards = ({ data, title }) => {
 	if (data?.length > 0) {
-		return data.map((post) => {
-			return <Card key={post._id} {...post} />;
+		return data.map((post,index) => {
+			return <Card key={post._id} {...post} index={index}/>;
 		});
 	}
 	return (

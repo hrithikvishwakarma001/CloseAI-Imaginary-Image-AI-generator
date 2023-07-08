@@ -147,28 +147,25 @@ const SidebarContent = ({ onClose, ...rest }) => {
 };
 
 const MobileNav = ({ onOpen, ...rest }) => {
-	const { isAuth, toggleAuth,setName } = useContext(AuthContext);
+	const { isAuth, toggleAuth, setName } = useContext(AuthContext);
 	const nevigate = useNavigate();
 	const { colorMode, toggleColorMode } = useColorMode();
-  const [user,setUser] = React.useState(null);
+	const [user, setUser] = React.useState(null);
 	async function getInfo() {
 		try {
-			let res = await fetch(
-				"http://localhost:8080/api/test/getinfo",
-				{
-					credentials: "include",
-				}
-			);
+			let res = await fetch("http://localhost:8080/api/test/getinfo", {
+				credentials: "include",
+			});
+
 			if (res.status === 200) {
-				console.log('m getting it correctly')
 				toggleAuth(true);
 				const data = await res.json();
-				console.log('👻 -> file: SidebarWithHeader.jsx:165 -> getInfo -> data:', data)
+				console.log('👻 -> file: SidebarWithHeader.jsx:163 -> getInfo -> data:', data)
 				setUser(data);
 				setName(data.name);
-			}else{
-				toggleAuth(false);
 				nevigate("/");
+			} else {
+				toggleAuth(false);
 			}
 		} catch (error) {
 			console.log("err", error);
@@ -177,24 +174,21 @@ const MobileNav = ({ onOpen, ...rest }) => {
 	React.useEffect(() => {
 		getInfo();
 	}, []);
- 
 
-	async function handleLogout(){
-		fetch("http://localhost:8080/api/test/logout",{
-		credentials: "include"
-		}).then((res) => res.json())
+	async function handleLogout() {
+		fetch("http://localhost:8080/api/test/logout", {
+			credentials: "include",
+		})
+			.then((res) => res.json())
 			.then((data) => {
-				console.log(data);
 				if (data.success) {
 					toggleAuth(false);
 					nevigate("/");
 					setName("");
 					getInfo();
-					
 				}
 			});
-		}
-		console.log(user?.avatar)
+	}
 
 	return (
 		<Flex
@@ -234,7 +228,58 @@ const MobileNav = ({ onOpen, ...rest }) => {
 					onClick={toggleColorMode}
 					icon={colorMode === "light" ? <FiSun /> : <FiMoon />}
 				/>
-				{isAuth ? (
+				<Flex alignItems={"center"}>
+					<Menu>
+						<MenuButton
+							py={2}
+							transition='all 0.3s'
+							_focus={{ boxShadow: "none" }}>
+							<HStack>
+								<Avatar size={"sm"} src={user?.avatar} />
+								<VStack
+									display={{ base: "none", md: "flex" }}
+									alignItems='flex-start'
+									spacing='1px'
+									ml='2'>
+									<Text fontSize='sm'>{user?.name}</Text>
+								</VStack>
+								<Box display={{ base: "none", md: "flex" }}>
+									<FiChevronDown />
+								</Box>
+							</HStack>
+						</MenuButton>
+						<MenuList
+							borderColor='gray.200'
+							_dark={{
+								bg: "gray.900",
+							}}>
+							<MenuItem
+								_dark={{
+									bg: "gray.900",
+									color: "gray.200",
+								}}>
+								Profile
+							</MenuItem>
+							<MenuItem
+								_dark={{
+									bg: "gray.900",
+									color: "gray.200",
+								}}>
+								Settings
+							</MenuItem>
+							<MenuDivider />
+							<MenuItem
+								_dark={{
+									bg: "gray.900",
+									color: "gray.200",
+								}}
+								onClick={handleLogout}>
+								Sign out
+							</MenuItem>
+						</MenuList>
+					</Menu>
+				</Flex>
+				{/* {isAuth ? (
 					<Flex alignItems={"center"}>
 						<Menu>
 							<MenuButton
@@ -248,9 +293,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
 										alignItems='flex-start'
 										spacing='1px'
 										ml='2'>
-										<Text fontSize='sm'>
-											{user?.name}
-										</Text>
+										<Text fontSize='sm'>{user?.name}</Text>
 									</VStack>
 									<Box display={{ base: "none", md: "flex" }}>
 										<FiChevronDown />
@@ -263,16 +306,28 @@ const MobileNav = ({ onOpen, ...rest }) => {
 									bg: "gray.900",
 								}}>
 								<MenuItem
-								 _dark={{bg:'gray.900',color:"gray.200"}}
-								>Profile</MenuItem>
+									_dark={{
+										bg: "gray.900",
+										color: "gray.200",
+									}}>
+									Profile
+								</MenuItem>
 								<MenuItem
-								 _dark={{bg:'gray.900',color:"gray.200"}}
-								>Settings</MenuItem>
+									_dark={{
+										bg: "gray.900",
+										color: "gray.200",
+									}}>
+									Settings
+								</MenuItem>
 								<MenuDivider />
 								<MenuItem
-								 _dark={{bg:'gray.900',color:"gray.200"}}
-								 onClick={handleLogout}
-								>Sign out</MenuItem>
+									_dark={{
+										bg: "gray.900",
+										color: "gray.200",
+									}}
+									onClick={handleLogout}>
+									Sign out
+								</MenuItem>
 							</MenuList>
 						</Menu>
 					</Flex>
@@ -303,7 +358,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
 							</Button>
 						</NavLink>
 					</>
-				)}
+				)} */}
 			</HStack>
 		</Flex>
 	);

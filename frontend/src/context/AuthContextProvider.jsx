@@ -4,8 +4,8 @@ const AuthContextProvider = ({ children }) => {
 	const [user, setUser] = React.useState(null);
 	const [isAuth, setAuth] = React.useState(false);
 	const [name, setName] = React.useState("");
-	const toggleAuth = () => {
-		setAuth(!isAuth);
+	const toggleAuth = (bool) => {
+		setAuth(bool);
 	};
 	return (
 		<AuthContext.Provider value={{ user, setUser, isAuth, toggleAuth,name,setName }}>

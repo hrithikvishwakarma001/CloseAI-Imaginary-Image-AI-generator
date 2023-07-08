@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getRandomPrompt } from "../utils";
 import { FormField } from "../components";
-import { preview,  } from "../assets";
+import { preview } from "../assets";
 import {
 	Box,
 	Button,
@@ -21,7 +21,7 @@ import { AuthContext } from "../context/AuthContextProvider";
 
 const CreatePost = () => {
 	const toast = useToast();
-	const {name} = useContext(AuthContext);
+	const { name } = useContext(AuthContext);
 	const navigate = useNavigate();
 	const [loading, setLoading] = React.useState(false);
 	const [generatingImg, setGeneratingImg] = React.useState(false);
@@ -32,6 +32,23 @@ const CreatePost = () => {
 	});
 
 	const generateImage = async () => {
+		if(!form.name){
+		 return toast({
+				title: "Please Enter Your Name",
+				status: "error",
+				duration: 3000,
+				isClosable: true,
+			});
+		}
+		if(!form.prompt){
+		 return toast({	
+				title: "Please Enter Your Prompt",
+				status: "error",
+				duration: 3000,
+				isClosable: true,
+			});
+		}
+
 		if (form.name && form.prompt) {
 			try {
 				console.log("generating....");
@@ -47,7 +64,6 @@ const CreatePost = () => {
 					}
 				);
 				const data = await response.json();
-				console.log(data);
 				setForm((prev) => ({
 					...prev,
 					photo: `data:image/jpeg;base64,${data.photo}`,
@@ -58,14 +74,13 @@ const CreatePost = () => {
 			} finally {
 				setGeneratingImg(false);
 			}
-		} else {
-		navigate("/signup");
-		 toast({
-			 title: "Please login to create your imagination",
-			 status: "error",
-			 duration: 4000,
-			 isClosable: true,
-		 })
+		}else{
+			return toast({
+				title: "Please Enter Your Prompt and Prompt",
+				status: "error",
+				duration: 3000,
+				isClosable: true,
+			});
 		}
 	};
 	const handleChange = (e) => {
@@ -121,14 +136,14 @@ const CreatePost = () => {
 				</Text>
 				<FormControl mt='16' maxW={"3xl"} onSubmit={handleSubmit}>
 					<VStack spacing={5} align='stretch'>
-						{/* <FormField
+						<FormField
 							label='Your Name'
 							type='text'
 							name='name'
 							placeholder='Enter your name'
 							value={form.name}
 							handleChange={handleChange}
-						/> */}
+						/>
 						<FormField
 							label='Prompt'
 							type='text'
