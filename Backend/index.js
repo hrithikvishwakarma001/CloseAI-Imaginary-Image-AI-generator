@@ -9,7 +9,7 @@ import { passport } from "./authentication/google.auth.js";
 import { User_owner } from "./mongodb/models/user.js";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
-import session from 'express-session'
+// import session from 'express-session'
 
 dotenv.config();
 const app = express();
@@ -21,14 +21,14 @@ app.use(
   })
 );
 
-app.use(
-	session({
-	  secret: "keyboard",
-	  resave: false,
-	  saveUninitialized: true,
-	  cookie: { secure: true },
-	})
-  );
+// app.use(
+// 	session({
+// 	  secret: "keyboard",
+// 	  resave: false,
+// 	  saveUninitialized: true,
+// 	  cookie: { secure: true },
+// 	})
+//   );
 
 app.use(express.json({ limit: "50mb" }));
 
