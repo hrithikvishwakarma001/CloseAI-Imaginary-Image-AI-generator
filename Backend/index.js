@@ -14,12 +14,7 @@ import cookieParser from "cookie-parser";
 dotenv.config();
 const app = express();
 app.use(cookieParser());
-app.use(
-	cors({
-		origin: "https://closeai.vercel.app/",
-		credentials: true,
-	})
-);
+app.use(cors());
 
 // app.use(
 // 	session({
