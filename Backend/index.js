@@ -15,10 +15,10 @@ dotenv.config();
 const app = express();
 app.use(cookieParser());
 app.use(
-  cors({
-    origin: "http://localhost:3000",
-	credentials:true
-  })
+	cors({
+		origin: "https://closeai.vercel.app/",
+		credentials: true,
+	})
 );
 
 // app.use(
@@ -38,47 +38,47 @@ app.use("/api/v1/closeai", closeAiRoutes);
 app.use("/api/test", user);
 
 app.get("/", async (req, res) => {
-  res.send("Hello World");
+	res.send("Hello World");
 });
 
 app.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["email", "profile"] })
+	"/auth/google",
+	passport.authenticate("google", { scope: ["email", "profile"] })
 );
 
 app.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    // successRedirect: 'http://127.0.0.1:5173/',
-    failureRedirect: "/",
-    session: false,
-  }),
-  async (req, res) => {
-    const { email } = req.user;
-    console.log("👻 -> file: index.js:60 -> email", email)
-    const user = await User_owner.findOne({ email });
-    console.log('👻 -> file: index.js:60 -> user:', user)
-    let jwttoken = jwt.sign(
-      {
-        id: user?.id,
-      },
-      "shhh"
-    );
+	"/auth/google/callback",
+	passport.authenticate("google", {
+		// successRedirect: 'http://127.0.0.1:5173/',
+		failureRedirect: "/",
+		session: false,
+	}),
+	async (req, res) => {
+		const { email } = req.user;
+		console.log("👻 -> file: index.js:60 -> email", email);
+		const user = await User_owner.findOne({ email });
+		console.log("👻 -> file: index.js:60 -> user:", user);
+		let jwttoken = jwt.sign(
+			{
+				id: user?.id,
+			},
+			"shhh"
+		);
 
-    res.cookie("token", jwttoken,{httpOnly:true});
-    res.redirect("http://localhost:3000/");
-  }
+		res.cookie("token", jwttoken, { httpOnly: true });
+		res.redirect("http://localhost:3000/");
+	}
 );
 
 const start = async () => {
-  try {
-    connectDB;
-    app.listen(8080, () => {
-      console.log(`Server is running ....`);
-    });
-  } catch (error) {
-    console.log(error);
-  }
+	try {
+		connectDB;
+		app.listen(8080, () => {
+			console.log(`Server is running ....`);
+		});
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 start();
