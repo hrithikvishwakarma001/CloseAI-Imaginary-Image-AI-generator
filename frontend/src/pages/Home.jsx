@@ -79,12 +79,11 @@ const Home = () => {
 
 	return (
 		<Container maxW='8xl' mx='auto'>
-			<Heading mt='2rem' fontSize='32px' fontFamily='caviet'>
+			<Heading mt='2rem' fontSize='32px' >
 				The Community Showcase
 			</Heading>
 			<Text
 				color='#666e75'
-				fontFamily='caviet'
 				fontSize={"sm"}
 				mw='500px'
 				mt='2'>
@@ -98,7 +97,6 @@ const Home = () => {
 						htmlFor='search'
 						display='block'
 						fontSize='sm'
-						fontFamily={"cursive"}
 						fontWeight='medium'
 						mb='1'>
 						Search posts
@@ -146,12 +144,10 @@ const Home = () => {
 								as='h2'
 								fontSize='xl'
 								mb='3'
-								fontFamily='cursive'>
+								>
 								Showing result for &nbsp;
 								<Text
 									as='span'
-									// color={useColorModeValue("black", "purple.400")}
-									fontFamily='cursive'
 									fontWeight={600}>
 									{search}
 								</Text>

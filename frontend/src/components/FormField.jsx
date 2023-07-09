@@ -26,7 +26,6 @@ const FormField = ({
 					htmlFor={name}
 					display='block'
 					fontSize='sm'
-					fontFamily={"cursive"}
 					fontWeight='medium'
 					mb='1'>
 					{label}

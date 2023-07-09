@@ -55,7 +55,7 @@ const Card = ({ _id, name, photo, prompt, index }) => {
 						color={"white"}
 						fontSize={"xs"}
 						overflowY={"auto"}
-						fontFamily='cursive'>
+						>
 						{prompt}
 					</Text>
 					<Flex

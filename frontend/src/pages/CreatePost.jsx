@@ -6,6 +6,7 @@ import { preview } from "../assets";
 import {
 	Box,
 	Button,
+	Center,
 	Container,
 	Flex,
 	FormControl,
@@ -32,16 +33,16 @@ const CreatePost = () => {
 	});
 
 	const generateImage = async () => {
-		if(!form.name){
-		 return toast({
+		if (!form.name) {
+			return toast({
 				title: "Please Enter Your Name",
 				status: "error",
 				duration: 3000,
 				isClosable: true,
 			});
 		}
-		if(!form.prompt){
-		 return toast({	
+		if (!form.prompt) {
+			return toast({
 				title: "Please Enter Your Prompt",
 				status: "error",
 				duration: 3000,
@@ -54,7 +55,7 @@ const CreatePost = () => {
 				console.log("generating....");
 				setGeneratingImg(true);
 				const response = await fetch(
-					"http://localhost:8080/api/v1/closeai",
+					`${process.env.REACT_APP_BACKEND_API}/api/v1/closeai`,
 					{
 						method: "POST",
 						headers: {
@@ -74,7 +75,7 @@ const CreatePost = () => {
 			} finally {
 				setGeneratingImg(false);
 			}
-		}else{
+		} else {
 			return toast({
 				title: "Please Enter Your Prompt and Prompt",
 				status: "error",
@@ -95,7 +96,7 @@ const CreatePost = () => {
 			setLoading(true);
 			try {
 				const response = await fetch(
-					"http://localhost:8080/api/v1/posts",
+					`${process.env.REACT_APP_BACKEND_API}/api/v1/posts`,
 					{
 						method: "POST",
 						headers: {
@@ -121,16 +122,39 @@ const CreatePost = () => {
 	};
 	return (
 		<>
+			<Center
+				p='0'
+				m='0'
+				w='100%'
+				bg="yellow.400"
+				bgGradient='linear(to-r, yellow.400, #FDCB55)'
+				>
+				<Text
+					color='black'
+					px='4'
+					py='1'
+					borderRadius={"10px"}
+					fontWeight={["600", "600", "600", "600"]}>
+					{" "}
+					<strong>
+						Note: Image Generation Delay and API Key Usage
+						Occasionally
+					</strong>
+					, the image generation process may experience some delays.
+					We kindly request your patience if the image takes longer
+					than expected. If the image fails to generate within 30
+					seconds, we recommend leaving the page and attempting again.
+					Please note that the OpenAI API, which powers the image
+					generation, is not entirely free to use. To ensure the
+					sustainability of our service, we periodically update the
+					API key.
+				</Text>
+			</Center>
 			<Container maxW='8xl' mx='auto'>
-				<Heading mt='2rem' fontSize='32px' fontFamily='caviet'>
+				<Heading mt='2rem' fontSize='32px'>
 					Create Your Imagination
 				</Heading>
-				<Text
-					color='#666e75'
-					fontFamily='caviet'
-					fontSize={"sm"}
-					mw='500px'
-					mt='2'>
+				<Text color='#666e75' fontSize={"sm"} mw='500px' mt='2'>
 					Create imagination and visually stunning images through
 					CloseAI and share them with the community.
 				</Text>
@@ -216,15 +240,13 @@ const CreatePost = () => {
 							type='button'
 							_hover={{ bg: "green.300" }}
 							bg={useColorModeValue("green.200", "green.700")}
-							onClick={generateImage}
-							fontFamily='caviet'>
+							onClick={generateImage}>
 							{generatingImg ? "Generating..." : "Generate"}
 						</Button>
 
 						<Text
 							color={useColorModeValue("gray.600", "gray.400")}
-							fontSize={"sm"}
-							fontFamily='cursive'>
+							fontSize={"sm"}>
 							once you generate the image, you can share it with
 							the community.
 						</Text>
@@ -234,8 +256,7 @@ const CreatePost = () => {
 							type='submit'
 							_hover={{ bg: "purple.300" }}
 							bg={useColorModeValue("purple.200", "purple.700")}
-							onClick={handleSubmit}
-							fontFamily='caviet'>
+							onClick={handleSubmit}>
 							{loading
 								? "Sharing..."
 								: "Share with the community"}
