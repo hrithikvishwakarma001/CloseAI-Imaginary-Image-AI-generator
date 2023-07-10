@@ -1,5 +1,7 @@
 # CloseAi - Imaginary Image Generator 🚀
 
+Create captivating imaginary images effortlessly, no login required!
+
 CloseAi is a web application that leverages the power of OpenAI API to generate imaginary images. With CloseAi, you can create unique and captivating images that don't exist in reality. This project is built using the MERN (MongoDB, Express.js, React.js, Node.js) stack, providing a seamless and efficient user experience.
 
 ## Features
